@@ -8,35 +8,33 @@ namespace GradeBook
         public Book(string name){ 
             grades = new List<double>();
              
-            this.name = name;
+            this.Name = name;
         }
 
         public void AddGrade(double grade) {
             grades.Add(grade);
         }
 
-        public void ShowStatistics()
+        public Statistics GetStatistics()
         {
-            var result = 0.0;
-            var highGrade = double.MinValue;
-            var lowGrade =  double.MaxValue;
-           
+            var result = new Statistics();
+            result.Average = 0.0;
+            result.High = double.MinValue;
+            result.Low =  double.MaxValue;
+            
             foreach(var grade in grades){
-                result += grade/(grades.Count);
-                if(grade > highGrade){
-                    highGrade = grade;
-                }
-                highGrade = Math.Max(grade, highGrade);
-                lowGrade = Math.Min(grade, lowGrade);
+                result.High = Math.Max(grade, result.High);
+                result.Low = Math.Min(grade, result.Low);
+                result.Average += grade;
             }
-            Console.WriteLine($"highest number is {highGrade}");
-            Console.WriteLine($"lowest number is {lowGrade}");
-            Console.WriteLine($"Average is: {result:N1}");
+            result.Average /= grades.Count;
+
+            return result;
         }
         
         // declaring outside the method become fields; inside its called variable
         private List<double> grades; 
-        private string name;
+        public string Name;
 
     } 
 }
