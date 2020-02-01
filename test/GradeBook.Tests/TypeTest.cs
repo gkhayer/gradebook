@@ -4,18 +4,26 @@ using Xunit;
 namespace GradeBook.Tests
 {
     public class TypeTest
-    {
+    { 
+        [Fact]
+        public void CSharpCanPassByRef(){
+            var book1 = GetBook("Book 1");
+            GetBookSetName(ref book1, "new name");
+
+            Assert.Equal("new name", book1.Name);
+        }
+
          [Fact]
         public void CSharpisPassByvalue()
         {
             var book1 =  GetBook("Book 1");
 
-            GetBookSetName(book1, "New Name");
-            
+            GetBookSetName(ref book1, "New Name");
+             
             Assert.Equal("New Name", book1.Name);
         }
 
-        private void GetBookSetName(Book book, string name)
+        private void GetBookSetName(ref Book book, string name)
         {
             book = new Book(name);
         }
